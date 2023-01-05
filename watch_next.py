@@ -13,16 +13,16 @@ class Movie():
         self.similar = 0
 
 # Define function that prints out the most similar movie to watch next
-def next_movie():
+def next_movie(description):
     
-    init_movie_desc = nlp(init_movie.description)
+    init_movie_desc = nlp(description)
     
     for movie in movie_list:
         movie_desc = nlp(movie.description)
         movie.similar = movie_desc.similarity(init_movie_desc)
 
     most_similar_movie = max(movie_list, key = lambda s: s.similar)
-    print(f' ► Watch next: {most_similar_movie.title}')
+    print(f' ► Watch next: "{most_similar_movie.title}"')
 
 # Create an empty list to store movie objects
 movie_list = []
@@ -30,7 +30,7 @@ movie_list = []
 # Open 'movies.txt' file then for every line, use the data to create a new movie object, then append this object to 'movie_list'
 with open('movies.txt', encoding = 'utf-8') as f:
     for line in f:
-        title, description = line.strip().split(':')
+        title, description = line.strip().split(' :')
         movie = Movie(title, description)
         movie_list.append(movie)
 
@@ -41,4 +41,4 @@ planet where the Hulk can live in peace. Unfortunately, Hulk land on the
 planet Sakaar where he is sold into slavery and trained as a gladiator.''')
 
 # Suggest the next movie to watch based on similarity to previous movie
-next_movie()
+next_movie(init_movie.description)
